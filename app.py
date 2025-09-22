@@ -8,12 +8,15 @@ from deep_translator import GoogleTranslator
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret")
 
-DB = "internships.db"
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+DB_PATH = os.path.join(basedir, "internships.db")
 
 def get_db_connection():
-    conn = sqlite3.connect("internships.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
+
 # translation filter
 def translate_text(text):
     # don't translate empty or already translated simple labels
