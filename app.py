@@ -1,11 +1,12 @@
 # app.py
 from flask import Flask, render_template, request, redirect, url_for, session,flash
 import sqlite3
+import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from deep_translator import GoogleTranslator
 
 app = Flask(__name__)
-app.secret_key = "change_this_secret_for_prod"
+app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret")
 
 DB = "internships.db"
 
