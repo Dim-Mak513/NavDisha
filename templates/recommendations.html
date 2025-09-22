@@ -1,0 +1,75 @@
+<!-- templates/recommendations.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-4">
+  {% if recos and recos|length > 0 %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {% for reco in recos %}
+        <div class="bg-white p-4 rounded shadow">
+          <!-- Header -->
+          <div class="flex items-start justify-between mb-2">
+            <div>
+              <h3 class="text-lg font-semibold text-orange-600">{{ reco.job['title'] }}</h3>
+              <div class="text-sm text-gray-600">{{ reco.job['company'] }}</div>
+            </div>
+            <div class="text-sm text-gray-500">{{ reco.job['location'] }}</div>
+          </div>
+
+          <!-- Description -->
+          <p class="text-gray-700 mb-3">{{ reco.job['description'] }}</p>
+
+          <!-- Determine percentage and color safely -->
+          {% set p = reco.percentage %}
+          {% if p < 40 %}
+            {% set bar_color = "#e53935" %}
+          {% elif p < 70 %}
+            {% set bar_color = "#fb8c00" %}
+          {% else %}
+            {% set bar_color = "#2e7d32" %}
+          {% endif %}
+
+          <!-- Match bar -->
+          <div class="mt-2">
+            <div class="flex items-center justify-between">
+              <div class="text-sm font-medium">Match: {{ p }}%</div>
+              <div>
+                {% set stars = (p // 20) | int %}
+                {% for i in range(1,6) %}
+                  {% if i <= stars %}
+                    <span style="color:#f6c100;">&#9733;</span>
+                  {% else %}
+                    <span style="color:#ddd;">&#9733;</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+
+            <div style="background:#eee; border-radius:8px; height:12px; margin-top:6px; overflow:hidden;">
+              <div class="h-full" style="width: {{ p }}%; background: {{ bar_color }};"></div>
+            </div>
+          </div>
+
+          <!-- Tags (optional) -->
+          {% if reco.job.get('tags') %}
+            <div class="mt-2 text-xs text-gray-500">Tags: {{ reco.job['tags'] }}</div>
+          {% endif %}
+
+          <!-- Apply -->
+          <div class="mt-3 flex justify-end">
+            {% if reco.job.get('url') %}
+              <a href="{{ reco.job['url'] }}" target="_blank" class="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700">
+                Apply
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="bg-white p-6 rounded shadow text-center">
+      <p class="text-gray-700">No matches found yet. Please update your profile (skills / locations / roles) and try again.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

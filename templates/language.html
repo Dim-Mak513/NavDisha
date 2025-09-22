@@ -1,0 +1,22 @@
+<!-- templates/language.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+  <h1 class="text-3xl font-bold text-orange-600 mb-2">NavDisha-INTERNS</h1>
+  <p class="text-green-700 mb-4 font-semibold">Secure · Trusted · Protected</p>
+  <form method="post" class="space-y-4">
+    <label class="font-semibold text-orange-600">Choose your language</label>
+    <select name="language" class="w-full p-2 border rounded">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी (Hindi)</option>
+      <option value="ta">தமிழ் (Tamil)</option>
+      <option value="te">తెలుగు (Telugu)</option>
+      <option value="bn">বাংলা (Bengali)</option>
+      <option value="mr">मराठी (Marathi)</option>
+      <option value="gu">ગુજરાતી (Gujarati)</option>
+    </select>
+    <button type="submit" class="w-full py-2 rounded bg-green-600 text-white">Continue</button>
+  </form>
+</div>
+{% endblock %}
+

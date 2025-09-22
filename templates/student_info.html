@@ -1,0 +1,65 @@
+<!-- templates/student_info.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-2xl font-bold text-center text-green-700 mb-4">{{ "Student Information"|tr }}</h2>
+  <form method="post" class="space-y-4">
+
+    <!-- Name -->
+    <input name="name" placeholder="{{ 'Full Name'|tr }}" value="{{ profile.name if profile else '' }}" class="w-full p-2 border rounded" required>
+
+    <!-- Age & Gender -->
+    <div class="grid grid-cols-2 gap-3">
+      <input name="age" type="number" placeholder="{{ 'Age'|tr }}" value="{{ profile.age if profile else '' }}" class="p-2 border rounded" required>
+      <select name="gender" class="p-2 border rounded" required>
+        <option value="">-- Select Gender --</option>
+        <option value="Male" {% if profile and profile.gender == "Male" %}selected{% endif %}>Male</option>
+        <option value="Female" {% if profile and profile.gender == "Female" %}selected{% endif %}>Female</option>
+        <option value="Other" {% if profile and profile.gender == "Other" %}selected{% endif %}>Other</option>
+      </select>
+    </div>
+
+    <!-- Course -->
+    <label class="font-semibold text-orange-600">Course</label>
+    <select name="course" class="w-full p-2 border rounded" required>
+      <option value="">-- Select Course --</option>
+      {% for c in ["B.Tech","M.Tech","BCA","MCA","BA","BSc","MSc","MBA"] %}
+        <option value="{{ c }}" {% if profile and profile.course == c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- GPA -->
+    <input name="gpa" placeholder="{{ 'GPA (e.g. 8.5)'|tr }}" value="{{ profile.gpa if profile else '' }}" class="w-full p-2 border rounded" type="number" step="0.01">
+
+    <!-- Skills -->
+    <label class="font-semibold text-orange-600">Skills</label>
+    <select name="skills" multiple class="w-full h-40 border rounded p-2">
+      {% for s in skills_list %}
+        <option value="{{ s }}" {% if profile and s in (profile.skills or '').split(',') %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+    <p class="text-xs text-gray-500">Hold Ctrl (Windows) or Cmd (Mac) to select multiple</p>
+
+    <!-- Preferred Locations -->
+    <label class="font-semibold text-orange-600">Preferred Locations</label>
+    <select name="locations" multiple class="w-full h-40 border rounded p-2">
+      {% for loc in locations %}
+        <option value="{{ loc }}" {% if profile and loc in (profile.locations or '').split(',') %}selected{% endif %}>{{ loc }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- Roles -->
+    <label class="font-semibold text-orange-600">Preferred Roles</label>
+    <select name="roles" multiple class="w-full h-40 border rounded p-2">
+      {% for role in roles %}
+        <option value="{{ role }}" {% if profile and role in (profile.roles or '').split(',') %}selected{% endif %}>{{ role }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- User Current Location -->
+    <input name="user_location" placeholder="{{ 'Your Current Location'|tr }}" value="{{ profile.user_location if profile else '' }}" class="w-full p-2 border rounded">
+
+    <button class="w-full py-2 rounded bg-orange-600 text-white">{{ "Save & See Recommendations"|tr }}</button>
+  </form>
+</div>
+{% endblock %}
